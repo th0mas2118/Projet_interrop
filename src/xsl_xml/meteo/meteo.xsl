@@ -84,6 +84,27 @@
             </xsl:choose>
         </xsl:variable>
 
+        <xsl:variable name="bg">
+            <xsl:choose>
+                <xsl:when test="$echeance/pluie > 0">
+                    <xsl:choose>
+                        <xsl:when test="$echeance/risque_neige = 'oui'">
+                            snow
+                        </xsl:when>
+                        <xsl:otherwise>
+                            rain
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    sun
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <div class="bg {$bg}">
+             
+        </div>
         <header>
             <div class="weather-icon">
                  <i class="{$icon}"> </i>
