@@ -120,6 +120,39 @@ body > h3 {
 	background-color: #0000001c;
 }
 
-.mini-card .weather-icon {
+.weather-icon {
 	font-size: 3rem;
+}
+
+.large-card {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	border-radius: 5px;
+	padding: 1rem;
+	background-color: #0000001c;
+	width: 80%;
+}
+
+.large-card .date {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.large-card .item {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+	margin: 1rem;
+}
+
+.large-card .item .value {
+	font-size: 1.2rem;
+}
+
+.large-card .item span {
+	color: #d7d7d7bf;
 }

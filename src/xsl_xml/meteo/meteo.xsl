@@ -38,7 +38,16 @@
     </xsl:template>
 
     <xsl:variable name="hour" select="date:hour-in-day()" />
-    <xsl:variable name="day" select="date:day-in-month()"></xsl:variable>
+    <xsl:variable name="day">
+        <xsl:choose>
+            <xsl:when test="date:day-in-month() > 10">
+                <xsl:value-of select="date:day-in-month()" />
+            </xsl:when>
+            <xsl:otherwise>
+                <xsl:value-of select="concat('0', date:day-in-month())" />
+            </xsl:otherwise>
+        </xsl:choose>
+    </xsl:variable>
     <xsl:variable name="dayName" select="date:day-name()"></xsl:variable>
     <xsl:variable name="monthName" select="date:month-name()"></xsl:variable>
     <xsl:variable name="month">
@@ -67,7 +76,6 @@
                             <!-- HEURES APRES -->
                             
                             <xsl:when test="$eHour > $hour"> 
-                                
                                 <xsl:choose>
                                     <!-- HEURE LA PLUS PROCHE -->
                                     <xsl:when test="$hour + 3 >= $eHour">
@@ -120,7 +128,7 @@
                         <xsl:variable name="eHour" select="str:replace(str:split(@timestamp, ' ')[2], ':00', '')" />
                         <xsl:choose>
                             <xsl:when test="$eHour = 13">
-                                <xsl:call-template name="today-list">
+                                <xsl:call-template name="next-list">
                                     <xsl:with-param name="echeance" select="."/>
                                     <xsl:with-param name="hour" select="$eHour"/>
                                 </xsl:call-template>   
@@ -182,6 +190,58 @@
                 </div>
             </div>
         </header>
+    </xsl:template>
+    
+    <xsl:template name="next-list">
+        <xsl:param name="echeance"/>
+        <xsl:param name="hour"></xsl:param>
+        <xsl:variable name="tempcelsius" select="format-number(./temperature/level[@val='sol'] - 273.15, '0')"></xsl:variable>
+    
+        <xsl:variable name="icon">
+            <xsl:choose>
+                <xsl:when test="$echeance/pluie > 0">
+                    <xsl:choose>
+                        <xsl:when test="$echeance/risque_neige = 'oui'">
+                            fa-solid fa-snowflake
+                        </xsl:when>
+                        <xsl:otherwise>
+                            fa-solid fa-cloud-rain
+                        </xsl:otherwise>
+                    </xsl:choose>
+                </xsl:when>
+                <xsl:otherwise>
+                    fa-solid fa-sun
+                </xsl:otherwise>
+            </xsl:choose>
+        </xsl:variable>
+
+        <div class="large-card">
+            <xsl:variable name="cDay" select="str:split(str:split(@timestamp, '-')[3], ' ')[1]" />
+            <xsl:variable name="cMonth" select="str:split(@timestamp, '-')[2]" />
+            <xsl:variable name="cYear" select="str:split(@timestamp, '-')[1]" />
+            <xsl:variable name="cDayName" select="date:day-name(concat($cYear, '-', $cMonth, '-', $cDay))" />
+
+            <div class="date">
+                <span><xsl:value-of select="$cDayName" /></span>
+                <span><xsl:value-of select="$cDay" /></span>
+            </div>
+            <div class="weather-icon">
+                <i class="{$icon}"> </i>
+            </div>
+            <xsl:value-of select="$tempcelsius" />°C
+            <div class="item">
+                <xsl:value-of select="./vent_moyen/level" /> Km/h
+                <span class="title">Vent moyen</span>
+            </div>
+            <div class="item">
+                <xsl:value-of select="./pluie" /> mm
+                <span class="title">Pluie</span>
+            </div>
+            <div class="item">
+                <xsl:value-of select="./humidite" />
+                <span class="title">Humidité</span>
+            </div>
+        </div>
     </xsl:template>
 
     <xsl:template name="today-list">
