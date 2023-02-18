@@ -1,16 +1,26 @@
 <?php
 
 
-$xmlString = file_get_contents("http://www.infoclimat.fr/public-api/gfs/xml?_ll=48.6828484,6.1588916&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2", true);
-file_put_contents("meteo.xml", $xmlString);
+$opts = array('http' => array('proxy' => 'tcp://www-cache:3128', 'request_fulluri' => true));
+$context = stream_context_create($opts);
 
-$xml = new DOMDocument;
-$xml->load("meteo.xml");
+$res = file_get_contents('http://ip-api.com/xml/', false, $context);
+$xml = simplexml_load_string($res);
+
+$lat = $xml->lat;
+$lon = $xml->lon;
+
+$coord = $lat . ',' . $lon;
 
 $xsl = new DOMDocument();
-$xsl->load("./xsl_xml/meteo/meteo.xsl");
+$xsl->load('./xsl_xml/meteo/meteo.xsl');
+
+
+$urlMeteo = 'http://www.infoclimat.fr/public-api/gfs/xml?_ll=' . $coord . '&_auth=VU9XQFUrVXdVeFRjBnABKFM7V2IOeFB3Uy9SMQ5rAn8Bal4%2FAGAGYAdpA35TfAI0V3oFZgoxADAEbwZ%2BCnhVNFU%2FVztVPlUyVTpUMQYpASpTfVc2Di5Qd1MxUjwOYAJ%2FAWdeOgB9BmUHawNkU30CNFdkBWAKKgAnBGYGZwpgVTJVNlc2VTRVNlU5VDcGKQEqU2ZXNA5iUGBTMFI3DmECYgFlXjIAZwZtB2EDZlN9Aj9XYAVnCjwAPARjBmcKZVUpVSlXSlVFVSpVelR0BmMBc1N9V2IOb1A8&_c=a04a6187f15f87439891f17702c39b9b';
+$resMeteo = file_get_contents($urlMeteo, false, $context);
+$xmlMeteo = simplexml_load_string($resMeteo);
+
 
 $proc = new XSLTProcessor;
 $proc->importStylesheet($xsl);
-
-echo $proc->transformToXml($xml);
+echo $proc->transformToXml($xmlMeteo);
