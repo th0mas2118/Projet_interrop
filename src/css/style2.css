@@ -28,6 +28,7 @@ h4 {
 	align-items: center;
 	justify-content: space-evenly;
 	margin: 1rem;
+	flex-wrap: wrap;
 }
 
 .meteo-card header .today {
@@ -52,6 +53,7 @@ h4 {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .meteo-card header .today h3 {
@@ -132,6 +134,7 @@ body > h3 {
 	padding: 1rem;
 	background-color: #0000001c;
 	width: 80%;
+	flex-wrap: wrap;
 }
 
 .large-card .date {
@@ -139,6 +142,7 @@ body > h3 {
 	align-items: center;
 	justify-content: center;
 	flex-direction: column;
+	min-width: 100px;
 }
 
 .large-card .item {
@@ -155,4 +159,19 @@ body > h3 {
 
 .large-card .item span {
 	color: #d7d7d7bf;
+}
+
+#map {
+	margin: 1rem;
+	aspect-ratio: 1/1;
+}
+
+@media screen and (max-width: 620px) {
+	.meteo-card header {
+		flex-direction: column;
+	}
+
+	.meteo-card header .today {
+		width: 100%;
+	}
 }

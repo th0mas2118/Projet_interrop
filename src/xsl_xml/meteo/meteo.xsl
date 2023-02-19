@@ -188,6 +188,7 @@
                     <xsl:value-of select="./humidite" />
                     <span class="title">Humidité</span>
                 </div>
+                    QAIR
             </div>
         </header>
     </xsl:template>
