@@ -46,8 +46,11 @@ function generate($lat, $lon, $markerList, $html, $qualite, $couleur)
 {
     $res = $html;
 
-    $res = str_replace('</head>', '<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script></head>', $res);
+    $res = str_replace('</head>', '
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+    </head>', $res);
 
     $res = str_replace('<body>', '<body onload="initialize()">', $res);
     $res = str_replace('QAIR', "<div class='item' style='color: $couleur'>$qualite<span class='title'>Qualité de l'air</span></div>", $res);
@@ -75,7 +78,8 @@ function generate($lat, $lon, $markerList, $html, $qualite, $couleur)
         .addTo(map)
         .bindPopup('Vous êtes ici')\n
       {$markerList}
-    </script></body>
+    </script>
+    </body>
     EOT;
 
     $res = str_replace('</body>', $map, $res);
@@ -83,6 +87,15 @@ function generate($lat, $lon, $markerList, $html, $qualite, $couleur)
 
     return $res;
 }
+
+
+echo "
+<div>
+<a style='color: white !important;' href='http://ip-api.com/xml/'>lien ip</a>
+<a style='color: white !important;' href='$urlMeteo'>lien météo</a>
+<a style='color: white !important;' href='https://api.jcdecaux.com/vls/v3/stations?apiKey=frifk0jbxfefqqniqez09tw4jvk37wyf823b5j1i&contract=nancy'>lien vélos</a>
+</div>";
+
 
 if ($city !== 'Nancy') {
     echo generate(48.6822, 6.1862, $markerList, $html, $qualite, $couleur);

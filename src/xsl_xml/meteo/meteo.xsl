@@ -165,7 +165,7 @@
         <header>
             <div class="today">
                 <div class="title">
-                    <h1>Nancy</h1>
+                    <h1 id="ville">Nancy</h1>
                     <h2><xsl:value-of select="concat($dayName, ' ', $day, ' ', $monthName)" /></h2>
                     <div class="weather">
                         <div class="weather-icon">
