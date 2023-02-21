@@ -13,27 +13,39 @@ function csvJSON(csv) {
   return JSON.stringify(result) //JSON
 }
 
+const airElem = document.getElementById('air')
 //Récupération qualité air
-fetch(
+const qualiteAir = await fetch(
   'https://services3.arcgis.com/Is0UwT37raQYl9Jj/arcgis/rest/services/ind_grandest/FeatureServer/0/query?where=lib_zone%3D%27Nancy%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token='
 )
   .then((response) => response.json())
   .then((data) => {
-    const qualiteAir = data.features[0].attributes.lib_qual
-    // console.log(data.features[0].attributes.lib_qual)
+    return data.features[0].attributes.lib_qual
   })
 
+airElem.innerHTML += qualiteAir
+
 //GESTION IP ET DEPARTEMENT
-let departement
-const location = await fetch('http://ip-api.com/json/')
+let zip
+const location = await fetch('https://ipapi.co/json/')
   .then((response) => response.json())
   .then((data) => {
-    departement = data.zip.substring(0, 2)
+    zip = data.postal.substring(0, 2)
+
     if (data.city !== 'Nancy') {
       return { lat: 48.683187984248235, lon: 6.161876994260524 }
     }
-    return { lat: data.lon, lon: data.lat }
+    return { lat: data.latitude, lon: data.longitude }
   })
+
+const departement = await fetch(`https://geo.api.gouv.fr/departements/${zip}?fields=nom`)
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+    return data
+  })
+
+document.getElementById('departement').innerHTML += departement.nom
 
 //récupération donnée covid
 let hosp = []
@@ -46,7 +58,7 @@ await fetch('https://www.data.gouv.fr/fr/datasets/r/5c4e1452-3850-4b59-b11c-3dd5
   .then((response) => {
     let data = JSON.parse(csvJSON(response))
     data.forEach((element) => {
-      if (element.dep == departement && element.date >= date) {
+      if (element.dep == zip && element.date >= date) {
         // console.log(element)
         rea.push(element.rea)
         hosp.push(element.hosp)
