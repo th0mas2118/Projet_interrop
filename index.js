@@ -13,6 +13,14 @@ function csvJSON(csv) {
   return JSON.stringify(result) //JSON
 }
 
+let interval = setInterval(() => {
+  if (hosp.length > 0 && dchosp.length > 0 && rea.length > 0 && dateCovid.length > 0) {
+    clearInterval(interval);
+    document.getElementById("page").classList.remove("hide");
+    document.getElementsByClassName("loading")[0].classList.add("hide");
+  }
+}, 200);
+
 const airElem = document.getElementById('air')
 //Récupération qualité air
 const qualiteAir = await fetch(

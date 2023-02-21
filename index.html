@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <!-- <script src="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script type="module" src="./index.js"></script>
-    <title>Circulations</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
-    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-    <link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <div class="separateur">QUALITE DE L'AIR</div>
-    <div id="air">Qualité de l'air à Nancy :</div>
-    <div class="separateur">CIRCULATIONS</div>
-    <div id="map" style="width: 100%; height: 580px"></div>
-    <div class="separateur">COVID</div>
-    <p id="departement">Données pour :</p>
-    <div id="charts">
-      <div class="chart"><canvas id="myChart1"></canvas></div>
-      <div class="chart"><canvas id="myChart2"></canvas></div>
-      <div class="chart"><canvas id="myChart3"></canvas></div>
-    </div>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		<!-- <script src="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script> -->
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script type="module" src="./index.js"></script>
+		<title>Circulations</title>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
+		<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+		<link rel="stylesheet" href="https://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+		<link rel="stylesheet" href="style.css" />
+	</head>
+	<body>
+		<div class="loading">
+			<div class="icon"></div>
+		</div>
+		<div class="container hide" id="page">
+			<div class="liens">
+				<a
+					href="https://services3.arcgis.com/Is0UwT37raQYl9Jj/arcgis/rest/services/ind_grandest/FeatureServer/0/query?where=lib_zone%3D%27Nancy%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token="
+					>Qualité de l'air</a
+				>
+				<a href="https://ipapi.co/json/">IP</a>
+				<a href="https://geo.api.gouv.fr/departements/54?fields=nom">Département</a>
+				<a href="https://www.data.gouv.fr/fr/datasets/r/5c4e1452-3850-4b59-b11c-3dd51d7fb8b5">Covid</a>
+				<a href="https://carto.g-ny.org/data/cifs/cifs_waze_v2.json">Route</a>
+			</div>
+			<div class="separateur">QUALITE DE L'AIR</div>
+			<div id="air">Qualité de l'air à Nancy :</div>
+			<div class="separateur">CIRCULATIONS</div>
+			<div id="map" style="width: 100%; height: 580px"></div>
+			<div class="separateur">COVID</div>
+			<p id="departement">Données pour :</p>
+			<div id="charts">
+				<div class="chart"><canvas id="myChart1"></canvas></div>
+				<div class="chart"><canvas id="myChart2"></canvas></div>
+				<div class="chart"><canvas id="myChart3"></canvas></div>
+			</div>
+		</div>
+	</body>
 </html>
